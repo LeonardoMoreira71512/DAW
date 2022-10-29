@@ -10,3 +10,8 @@ LAB1
 
 LAB3
 [lab3.pdf](https://github.com/LeonardoMoreira71512/DAW/files/9847119/lab3.pdf)
+
+-------------------------------------------------------------
+
+LAB4
+[lab4.pdf](https://github.com/LeonardoMoreira71512/DAW/files/9894507/lab4.pdf)
