@@ -36,34 +36,50 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var myTransformations_1 = require("./myTransformations");
-var myLoadDataDestination_1 = require("./myLoadDataDestination");
-var cross_fetch_1 = require("cross-fetch");
-function getUsers() {
+var fs = require("fs");
+function getChunks() {
+    var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var abc, abcjson, arr, f_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var response, reader, stream, chunk, decoder, i, e_1;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    _a.trys.push([0, 4, , 5]);
-                    return [4 /*yield*/, (0, cross_fetch_1["default"])("https://jsonplaceholder.typicode.com/users")];
+                    _b.trys.push([0, 6, , 7]);
+                    return [4 /*yield*/, fetch("https://jigsaw.w3.org/HTTP/ChunkedScript")];
                 case 1:
-                    abc = _a.sent();
-                    return [4 /*yield*/, abc.json()];
+                    response = _b.sent();
+                    reader = (_a = response.body) === null || _a === void 0 ? void 0 : _a.getReader();
+                    stream = fs.createWriteStream("result.txt");
+                    return [4 /*yield*/, reader.read()];
                 case 2:
-                    abcjson = _a.sent();
-                    arr = Object.entries(abcjson).map(myTransformations_1["default"]);
-                    return [4 /*yield*/, (0, myLoadDataDestination_1["default"])('result.txt', arr)];
+                    chunk = _b.sent();
+                    decoder = new TextDecoder();
+                    i = 0;
+                    _b.label = 3;
                 case 3:
-                    _a.sent();
-                    return [3 /*break*/, 5];
+                    if (!!chunk.done) return [3 /*break*/, 5];
+                    stream.write(chunk.value);
+                    return [4 /*yield*/, (reader === null || reader === void 0 ? void 0 : reader.read())];
                 case 4:
-                    f_1 = _a.sent();
-                    console.log(f_1);
-                    return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
+                    // @ts-ignore
+                    chunk = _b.sent();
+                    console.log(decoder.decode(chunk.value));
+                    i++;
+                    console.log(i);
+                    return [3 /*break*/, 3];
+                case 5:
+                    stream.end();
+                    stream.on("finish", function () {
+                        console.log("Done");
+                    });
+                    return [3 /*break*/, 7];
+                case 6:
+                    e_1 = _b.sent();
+                    console.log(e_1);
+                    return [3 /*break*/, 7];
+                case 7: return [2 /*return*/];
             }
         });
     });
 }
-getUsers();
+getChunks();

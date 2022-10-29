@@ -1,18 +1,31 @@
-import myTransformations from "./myTransformations";
-import myLoadDataDestination from "./myLoadDataDestination";
-import fetch from 'cross-fetch';
+import * as fs from 'fs';
 
-async function getUsers () {
-    try{
-        const abc = await fetch("https://jsonplaceholder.typicode.com/users");
-        const abcjson = await abc.json();
-        const arr = Object.entries(abcjson).map(myTransformations);
-        await myLoadDataDestination('result.txt', arr);
+async function getChunks() {
+  try{
+    const response = await fetch("https://jigsaw.w3.org/HTTP/ChunkedScript")
+    const reader = response.body?.getReader();
+    const stream = fs.createWriteStream("result.txt");
+    // @ts-ignore
+    let chunk = await reader.read();
+    const decoder = new TextDecoder()
+    let i : number = 0;
+    while (!chunk.done) {
+      stream.write(chunk.value);
+      // @ts-ignore
+      chunk = await reader?.read();
+      console.log(decoder.decode(chunk.value));
+      i++;
+      console.log(i);
     }
-    catch(f){
-        console.log(f);
-    }
-        
+    stream.end();
+    stream.on("finish", () => {
+      console.log("Done");
+    });
+  }
+  catch (e){
+    console.log(e);
+  }
 }
+  
+getChunks();
 
-getUsers();
