@@ -15,3 +15,8 @@ LAB3
 
 LAB4
 [lab4.pdf](https://github.com/LeonardoMoreira71512/DAW/files/9894507/lab4.pdf)
+
+-------------------------------------------------------------
+LAB5
+[lab5.pdf](https://github.com/LeonardoMoreira71512/DAW/files/10008318/lab5.pdf)
+
